@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hospital Management System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+<div id="loginPage" class="box page">
+  <h2>Login</h2>
+  <input type="text" id="loginEmail" placeholder="Email">
+  <input type="password" id="loginPassword" placeholder="Password">
+  <button id="loginBtn">Login</button>
+  <p class="small">
+    New user? <a href="#" data-target="registerPage" class="nav-link">Register</a>
+  </p>
+</div>
+
+<!-- ================= REGISTER PAGE ================= -->
+<div id="registerPage" class="box page hidden">
+  <h2>Register</h2>
+  <input type="text" id="regName" placeholder="Full Name">
+  <input type="email" id="regEmail" placeholder="Email">
+  <input type="password" id="regPassword" placeholder="Password">
+  <button id="registerBtn">Register</button>
+  <p class="small">
+    Already have an account? <a href="#" data-target="loginPage" class="nav-link">Login</a>
+  </p>
+</div>
+
+<!-- ================= HOME PAGE ================= -->
+<div id="homePage" class="page hidden">
+  <nav class="main-nav">
+    <div class="nav-left">Hospital Management</div>
+    <div class="nav-right">
+      <a href="#" data-target="homePage" class="nav-link">Home</a>
+      <a href="#" data-target="searchDoctorPage" class="nav-link">Search Doctor</a>
+      <a href="#" data-target="appointmentPage" class="nav-link">Book Appointment</a>
+      <button id="logoutBtn" class="link-btn">Logout</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1>Welcome</h1>
+
+    <section class="card">
+      <h3>1. Search Doctor</h3>
+      <p>Find doctors by name or speciality.</p>
+      <button class="primary" data-target="searchDoctorPage">Search</button>
+    </section>
+
+    <section class="card">
+      <h3>2. Book Appointment</h3>
+      <p>Book appointment with a doctor.</p>
+      <button class="primary" data-target="appointmentPage">Book</button>
+    </section>
+  </main>
+</div>
+
+<!-- ================= SEARCH DOCTOR PAGE ================= -->
+<div id="searchDoctorPage" class="page hidden">
+  <nav class="sub-nav">
+    <a href="#" data-target="homePage" class="nav-link">← Home</a>
+  </nav>
+
+  <main class="container">
+    <h2>Search Doctor</h2>
+    <div class="search-row">
+      <input id="searchInput" type="text" placeholder="Enter doctor name or specialist">
+      <button id="searchBtn" class="primary">Search</button>
+    </div>
+    <div id="doctorResults" class="results"></div>
+  </main>
+</div>
+
+<!-- ================= APPOINTMENT PAGE ================= -->
+<div id="appointmentPage" class="page hidden">
+  <nav class="sub-nav">
+    <a href="#" data-target="homePage" class="nav-link">← Home</a>
+  </nav>
+
+  <main class="container">
+    <h2>Book Appointment</h2>
+    <div class="card form-card">
+      <label>Full Name
+        <input id="patientName" type="text" placeholder="Your full name">
+      </label>
+
+      <label>Doctor Name
+        <input id="doctorName" type="text" placeholder="Doctor name (or choose from search)">
+      </label>
+
+      <label>Date
+        <input id="appDate" type="date">
+      </label>
+
+      <label>Time
+        <input id="appTime" type="time">
+      </label>
+
+      <div class="form-actions">
+        <button id="submitAppointment" class="primary">Submit</button>
+        <button data-target="homePage" class="secondary nav-link">Cancel</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ================= SUCCESS PAGE ================= -->
+<div id="successPage" class="page hidden">
+  <main class="container">
+    <div class="card centered">
+      <h2>Thank You!</h2>
+      <p>Your appointment has been booked successfully.</p>
+      <button data-target="homePage" class="primary nav-link">Go Back Home</button>
+    </div>
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
