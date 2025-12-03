@@ -3,123 +3,208 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hospital Management System</title>
+  <title>Hospital Management (Single File)</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ================= LOGIN PAGE ================= -->
-<div id="loginPage" class="box page">
-  <h2>Login</h2>
-  <input type="text" id="loginEmail" placeholder="Email">
-  <input type="password" id="loginPassword" placeholder="Password">
-  <button id="loginBtn">Login</button>
-  <p class="small">
-    New user? <a href="#" data-target="registerPage" class="nav-link">Register</a>
-  </p>
+<!-- ========== LOGIN PAGE ========== -->
+<div id="loginPage" class="page">
+  <section class="box">
+    <h2>Login</h2>
+    <input id="loginEmail" placeholder="Email" type="email" />
+    <input id="loginPassword" placeholder="Password" type="password" />
+    <button id="loginSubmit" class="primary">Login</button>
+    <p class="small">New? <span id="goRegister" class="link-btn">Register</span></p>
+    <div id="loginMsg" class="small"></div>
+  </section>
 </div>
 
-<!-- ================= REGISTER PAGE ================= -->
-<div id="registerPage" class="box page hidden">
-  <h2>Register</h2>
-  <input type="text" id="regName" placeholder="Full Name">
-  <input type="email" id="regEmail" placeholder="Email">
-  <input type="password" id="regPassword" placeholder="Password">
-  <button id="registerBtn">Register</button>
-  <p class="small">
-    Already have an account? <a href="#" data-target="loginPage" class="nav-link">Login</a>
-  </p>
+<!-- ========== REGISTER PAGE ========== -->
+<div id="registerPage" class="page hidden">
+  <section class="box">
+    <h2>Register</h2>
+    <input id="regName" placeholder="Full Name" />
+    <input id="regEmail" placeholder="Email" />
+    <input id="regPass" placeholder="Password" type="password" />
+    <button id="regSubmit" class="primary">Register</button>
+    <p class="small">Have account? <span id="goLogin" class="link-btn">Login</span></p>
+    <div id="regMsg" class="small"></div>
+  </section>
 </div>
 
-<!-- ================= HOME PAGE ================= -->
+<!-- ========== HOME PAGE ========== -->
 <div id="homePage" class="page hidden">
-  <nav class="main-nav">
-    <div class="nav-left">Hospital Management</div>
+  <header class="main-nav">
+    <div class="nav-left brand">HospitalCare</div>
     <div class="nav-right">
-      <a href="#" data-target="homePage" class="nav-link">Home</a>
-      <a href="#" data-target="searchDoctorPage" class="nav-link">Search Doctor</a>
-      <a href="#" data-target="appointmentPage" class="nav-link">Book Appointment</a>
-      <button id="logoutBtn" class="link-btn">Logout</button>
+      <button id="logoutBtn" class="nav-btn">Logout</button>
     </div>
-  </nav>
+  </header>
 
   <main class="container">
-    <h1>Welcome</h1>
+    <h1>Welcome, <span id="userName">User</span></h1>
 
-    <section class="card">
-      <h3>1. Search Doctor</h3>
-      <p>Find doctors by name or speciality.</p>
-      <button class="primary" data-target="searchDoctorPage">Search</button>
-    </section>
-
-    <section class="card">
-      <h3>2. Book Appointment</h3>
-      <p>Book appointment with a doctor.</p>
-      <button class="primary" data-target="appointmentPage">Book</button>
-    </section>
+    <div class="home-section">
+      <div class="home-card" id="openSearch">Search Doctor</div>
+      <div class="home-card" id="openBook">Book Appointment</div>
+      <div class="home-card" id="openBilling">Billing</div>
+    </div>
   </main>
 </div>
 
-<!-- ================= SEARCH DOCTOR PAGE ================= -->
-<div id="searchDoctorPage" class="page hidden">
-  <nav class="sub-nav">
-    <a href="#" data-target="homePage" class="nav-link">← Home</a>
-  </nav>
+<!-- ========== SEARCH DOCTOR PAGE ========== -->
+<div id="searchPage" class="page hidden">
+  <header class="sub-nav">
+    <button id="backHome1" class="nav-btn">← Home</button>
+    <button id="logoutBtn2" class="nav-btn">Logout</button>
+  </header>
 
   <main class="container">
-    <h2>Search Doctor</h2>
-    <div class="search-row">
-      <input id="searchInput" type="text" placeholder="Enter doctor name or specialist">
+    <h2>Search Doctors</h2>
+
+    <div class="search-box">
+      <input id="searchInput" placeholder="Search by name or specialist" />
+      <div style="height:10px"></div>
       <button id="searchBtn" class="primary">Search</button>
     </div>
-    <div id="doctorResults" class="results"></div>
+
+    <div id="doctorList" class="doctor-list"></div>
   </main>
 </div>
 
-<!-- ================= APPOINTMENT PAGE ================= -->
-<div id="appointmentPage" class="page hidden">
-  <nav class="sub-nav">
-    <a href="#" data-target="homePage" class="nav-link">← Home</a>
-  </nav>
+<!-- ========== BOOK APPOINTMENT PAGE (Drag & Drop) ========== -->
+<div id="bookPage" class="page hidden">
+  <header class="sub-nav">
+    <button id="backHome2" class="nav-btn">← Home</button>
+    <button id="logoutBtn3" class="nav-btn">Logout</button>
+  </header>
 
   <main class="container">
     <h2>Book Appointment</h2>
-    <div class="card form-card">
-      <label>Full Name
-        <input id="patientName" type="text" placeholder="Your full name">
+
+    <div class="box form-card">
+      <label>Patient Name
+        <input id="patientName" placeholder="Full name" />
       </label>
 
-      <label>Doctor Name
-        <input id="doctorName" type="text" placeholder="Doctor name (or choose from search)">
-      </label>
+      <h3 style="margin-top:12px">Available Doctors (drag one)</h3>
+      <div id="dragDoctors" class="drag-container"></div>
+
+      <h3 style="margin-top:18px">Selected Doctor</h3>
+      <div id="dropBox" class="drop-box">Drop Doctor Here</div>
 
       <label>Date
-        <input id="appDate" type="date">
+        <input id="appDate" type="date" />
       </label>
 
       <label>Time
-        <input id="appTime" type="time">
+        <input id="appTime" type="time" />
       </label>
 
       <div class="form-actions">
-        <button id="submitAppointment" class="primary">Submit</button>
-        <button data-target="homePage" class="secondary nav-link">Cancel</button>
+        <button id="bookSubmit" class="primary">Confirm Appointment</button>
+      </div>
+      <div id="bookMsg" class="small"></div>
+    </div>
+  </main>
+</div>
+
+<!-- ========== APPOINTMENTS LIST PAGE ========== -->
+<div id="appointmentsPage" class="page hidden">
+  <header class="sub-nav">
+    <button id="backHome3" class="nav-btn">← Home</button>
+    <button id="logoutBtn4" class="nav-btn">Logout</button>
+  </header>
+
+  <main class="container">
+    <h2>My Appointments</h2>
+    <div id="appointmentsList"></div>
+  </main>
+</div>
+
+<!-- ========== BILLING PAGE ========== -->
+<div id="billingPage" class="page hidden">
+  <header class="sub-nav">
+    <button id="backHome4" class="nav-btn">← Home</button>
+    <button id="logoutBtn5" class="nav-btn">Logout</button>
+  </header>
+
+  <main class="container">
+    <h2>Billing</h2>
+    <div id="billingNotice" class="card">Open an appointment and click <strong>Pay</strong> in My Appointments to view bill here.</div>
+
+    <div id="billCard" class="card hidden">
+      <h3>Invoice</h3>
+      <p><strong>Patient:</strong> <span id="billPatient"></span></p>
+      <p><strong>Doctor:</strong> <span id="billDoctor"></span></p>
+      <p><strong>Doctor Fee (₹):</strong> <span id="billDoctorFee"></span></p>
+      <p><strong>Appointment Fee (₹):</strong> <span id="billAppFee"></span></p>
+      <hr />
+      <h3>Total: ₹<span id="billTotal"></span></h3>
+
+      <div style="margin-top:12px;">
+        <button id="payNowBtn" class="primary">Pay Now</button>
       </div>
     </div>
   </main>
 </div>
 
-<!-- ================= SUCCESS PAGE ================= -->
-<div id="successPage" class="page hidden">
+<!-- ========== PAYMENT PAGE ========== -->
+<div id="paymentPage" class="page hidden">
+  <header class="sub-nav">
+    <button id="backHome5" class="nav-btn">← Home</button>
+    <button id="logoutBtn6" class="nav-btn">Logout</button>
+  </header>
+
   <main class="container">
-    <div class="card centered">
-      <h2>Thank You!</h2>
-      <p>Your appointment has been booked successfully.</p>
-      <button data-target="homePage" class="primary nav-link">Go Back Home</button>
+    <h2>Payment</h2>
+    <div class="card form-card">
+      <label>Amount (₹)
+        <input id="payAmount" type="number" readonly />
+      </label>
+
+      <label>Payment Method
+        <select id="payMethod">
+          <option value="card">Card</option>
+          <option value="upi">UPI</option>
+        </select>
+      </label>
+
+      <div id="cardFields">
+        <label>Card Number
+          <input id="cardNumber" placeholder="1234 5678 9012 3456" />
+        </label>
+        <label>CVV
+          <input id="cardCVV" placeholder="123" />
+        </label>
+      </div>
+
+      <div style="margin-top:12px;">
+        <button id="paymentSubmit" class="primary">Pay & Confirm</button>
+      </div>
+      <div id="paymentMsg" class="small"></div>
     </div>
   </main>
 </div>
 
-<script src="script.js"></script>
+<!-- ========== SUCCESS PAGE ========== -->
+<div id="successPage" class="page hidden">
+  <main class="container">
+    <div class="success-box">
+      <h2>Thank you!</h2>
+      <p id="successText">Your action was successful.</p>
+      <div style="margin-top:12px">
+        <button id="goAppointments" class="primary">Go to Appointments</button>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- ========== REMOVED CONFIRM MODAL (WAS HERE) ========== -->
+
+<script src="app.js"></script>
 </body>
 </html>
+
+
